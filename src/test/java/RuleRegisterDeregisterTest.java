@@ -33,7 +33,7 @@ public class RuleRegisterDeregisterTest {
         outputDevice = new OutputDevice(SmartIEHub.DeviceMode.DEBUG); //5702
 
         hubAPI = new Retrofit.Builder()
-                .baseUrl("http://localhost:"+SmartIEHub.DEBUG_PORT)
+                .baseUrl("http://localhost:"+SmartIEHub.JAVALIN_PORT)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
                 .create(ISmartIEAPI.class);
