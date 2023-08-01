@@ -5,6 +5,7 @@ import com.github.iamniklas.hub.rules.Rule;
 import com.github.iamniklas.hub.rules.RuleCallback;
 import com.github.iamniklas.hub.rules.models.RecurringMode;
 import com.github.iamniklas.hub.rules.models.RuleData;
+import com.github.iamniklas.hub.rules.models.RuleType;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -13,7 +14,7 @@ public class TimeTriggerRule extends Rule {
     private final RecurringMode recurring;
 
     public TimeTriggerRule(RuleCallback callback, String ruleName, RuleData ruleData, SmartIEHub programInstance) {
-        super(callback, ruleName, ruleData, programInstance);
+        super(callback, ruleName, ruleData, programInstance, RuleType.Trigger);
         recurring = ruleData.recurringMode;
     }
 

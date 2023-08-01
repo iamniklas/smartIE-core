@@ -6,6 +6,7 @@ import com.github.iamniklas.hub.rules.RuleCallback;
 import com.github.iamniklas.hub.rules.models.NumberComparator;
 import com.github.iamniklas.hub.rules.models.RecurringMode;
 import com.github.iamniklas.hub.rules.models.RuleData;
+import com.github.iamniklas.hub.rules.models.RuleType;
 
 import java.time.LocalDateTime;
 
@@ -13,7 +14,7 @@ public class ValueComparisonRule extends Rule {
 
 
     public ValueComparisonRule(RuleCallback callback, String ruleName, RuleData ruleData, SmartIEHub programInstance) {
-        super(callback, ruleName, ruleData, programInstance);
+        super(callback, ruleName, ruleData, programInstance, RuleType.ValueComparison);
     }
 
     @Override

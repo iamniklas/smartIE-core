@@ -10,11 +10,14 @@ import com.github.iamniklas.hub.network.javalin.controller.implementation.Execut
 import com.github.iamniklas.hub.network.javalin.controller.implementation.RuleController;
 import com.github.iamniklas.hub.network.javalin.controller.implementation.TestsController;
 import com.github.iamniklas.hub.rules.Rule;
+import com.github.iamniklas.hub.rules.runner.RuleRunner;
 import io.javalin.Javalin;
 import io.javalin.plugin.bundled.CorsPluginConfig;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class SmartIEHub {
     public static int JAVALIN_PORT = 3742;
@@ -24,7 +27,7 @@ public class SmartIEHub {
 
     private final ArrayList<InputDevice> registeredInputDevices = new ArrayList<>();
     private final ArrayList<OutputDevice> registeredOutputDevices = new ArrayList<>();
-    private final ArrayList<Rule> registeredRules = new ArrayList<>();
+    private final ArrayList<RuleRunner> registeredRules = new ArrayList<>();
 
     private final ArrayList<ExecutionEvent<Rule>> ruleExecutions = new ArrayList<>();
     private final ArrayList<ExecutionEvent<OutputDevice>> outputDeviceExecutions = new ArrayList<>();
@@ -74,9 +77,9 @@ public class SmartIEHub {
         }
     }
 
-    public void registerRule(Rule rule) {
-        registeredRules.add(rule);
-        //TODO rule.start();
+    public void registerRule(RuleRunner ruleRunner) {
+        registeredRules.add(ruleRunner);
+        new Thread(ruleRunner);
     }
 
     public int getRuleCount() {
@@ -95,7 +98,7 @@ public class SmartIEHub {
         result.addAll(registeredOutputDevices);
         return result;
     }
-    public ArrayList<Rule> getRegisteredRules() { return registeredRules; }
+    public List<Rule> getRegisteredRules() { return registeredRules.stream().map(r -> r.getRule()).collect(Collectors.toList()); }
     public ArrayList<ExecutionEvent<OutputDevice>> getOutputDeviceExecutions() { return outputDeviceExecutions; }
     public ArrayList<ExecutionEvent<Rule>> getRuleExecutions() { return ruleExecutions; }
 
@@ -107,7 +110,7 @@ public class SmartIEHub {
     public void setRegisteredOutputDevices(OutputDevice dev, String uuid) { registeredOutputDevices.replaceAll(e -> Objects.equals(e.getDeviceUUID(), uuid) ? dev : e); }
     public void removeRegisteredOutputDevice(String uuid) { registeredOutputDevices.removeIf(e -> e.getDeviceUUID().equals(uuid));}
 
-    public void addRegisteredRules(Rule rule) { registeredRules.add(rule); }
-    public void setRegisteredRules(Rule rule, String uuid) { registeredRules.replaceAll(e -> Objects.equals(e.getRuleUUID(), uuid) ? rule : e); }
-    public void removeRegisteredRule(String uuid) { registeredRules.removeIf(e -> e.getRuleUUID().equals(uuid)); }
+    public void addRegisteredRules(RuleRunner rule) { registeredRules.add(rule); }
+    public void setRegisteredRules(Rule rule, String uuid) { registeredRules.replaceAll(e -> Objects.equals(e.getRule().getRuleUUID(), uuid) ? new RuleRunner(rule) : e); }
+    public void removeRegisteredRule(String uuid) { registeredRules.removeIf(e -> e.getRule().getRuleUUID().equals(uuid)); }
 }

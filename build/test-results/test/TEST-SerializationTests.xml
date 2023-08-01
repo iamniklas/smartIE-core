@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="SerializationTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2023-07-30T22:05:10" hostname="ASUS-NIKLAS-202" time="0.041">
+<testsuite name="SerializationTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2023-07-31T15:59:58" hostname="ASUS-NIKLAS-202" time="0.043">
   <properties/>
-  <testcase name="serialize()" classname="SerializationTests" time="0.041"/>
-  <system-out><![CDATA[]]></system-out>
+  <testcase name="testRuleSerialization()" classname="SerializationTests" time="0.043"/>
+  <system-out><![CDATA[{"sensorValue":0,"inputDeviceType":"Sensor","deviceUUID":"144d29f9-4946-40db-8e7a-0e9dcc6bca92","name":"input_device_1","deviceAddress":{"ip":"0.0.0.0","hostname":"hostname","port":5700},"deviceType":"INPUT"}
+{"ruleUUID":"6fc8c906-e79c-4c88-8ff2-a47e4e8dcc98","ruleName":"Proxy Rule","ruleType":"Proxy","ruleData":{"startValue":0,"targetValue":0,"timeInMs":0,"recurringModifier":0,"numberComparator":"GREATER_EQUALS"}}
+]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

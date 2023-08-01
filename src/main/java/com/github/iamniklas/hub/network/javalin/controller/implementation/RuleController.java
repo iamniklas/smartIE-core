@@ -3,6 +3,7 @@ package com.github.iamniklas.hub.network.javalin.controller.implementation;
 import com.github.iamniklas.hub.SmartIEHub;
 import com.github.iamniklas.hub.network.javalin.controller.Controller;
 import com.github.iamniklas.hub.rules.Rule;
+import com.github.iamniklas.hub.rules.runner.RuleRunner;
 import com.google.gson.Gson;
 import io.javalin.Javalin;
 
@@ -22,9 +23,10 @@ public class RuleController extends Controller {
 
         app.post("/rule", ctx -> {
             Rule r = new Gson().fromJson(ctx.body(), Rule.class);
+
             r.setSmartIEHub(smartIEInstance);
 
-            smartIEInstance.registerRule(r);
+            smartIEInstance.registerRule(new RuleRunner(r));
         });
 
         app.put("/rule/{id}", ctx -> {
