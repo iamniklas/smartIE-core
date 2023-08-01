@@ -28,14 +28,14 @@ public abstract class Rule {
 
     public String getRuleUUID() { return ruleUUID; }
     public String getRuleName() { return ruleName; }
+    public RuleType getRuleType() { return ruleType; }
+    public RuleData getRuleData() { return ruleData; }
 
     public void setSmartIEHub(SmartIEHub hub) { this.programInstance = hub; }
 
-    //@Override
-    public void run() {
-        //super.run();
+    public void startRule() {
         onRuleStart(LocalDateTime.now());
     }
 
-    public abstract void onRuleStart(LocalDateTime dateTimeOfExecution);
+    protected abstract void onRuleStart(LocalDateTime dateTimeOfExecution);
 }

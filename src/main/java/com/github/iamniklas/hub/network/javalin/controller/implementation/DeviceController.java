@@ -76,11 +76,11 @@ public class DeviceController extends Controller {
             if (type == Device.DeviceType.INPUT) {
                 InputDevice iDev = new Gson().fromJson(ctx.body(), InputDevice.class);
                 smartIEInstance.addRegisteredInputDevices(iDev);
-                ctx.json(HttpStatus.OK);
+                ctx.json(iDev);
             } else if (type == Device.DeviceType.OUTPUT) {
                 OutputDevice oDev = new Gson().fromJson(ctx.body(), OutputDevice.class);
                 smartIEInstance.addRegisteredOutputDevices(oDev);
-                ctx.json(HttpStatus.OK);
+                ctx.json(oDev);
             }
         });
 
