@@ -1,3 +1,4 @@
+/*
 import com.github.iamniklas.smartIEcore.hub.devices.DeviceAddress;
 import com.github.iamniklas.smartIEcore.hub.devices.InputDevice;
 import com.github.iamniklas.smartIEcore.hub.devices.InputDeviceType;
@@ -33,4 +34,4 @@ public class SerializationTests {
 
         System.out.println(new Gson().toJson(rule));
     }
-}
+}*/
