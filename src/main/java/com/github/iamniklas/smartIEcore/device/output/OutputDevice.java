@@ -2,7 +2,7 @@ package com.github.iamniklas.smartIEcore.device.output;
 
 import com.github.iamniklas.smartIEcore.device.output.network.javalin.controllers.OutputMasterController;
 import com.github.iamniklas.smartIEcore.hub.SmartIEHub;
-import com.github.iamniklas.smartIEcore.javalin.JavalinController;
+import com.github.iamniklas.smartIEcore.shared.network.javalin.JavalinController;
 import io.javalin.Javalin;
 
 import java.util.ArrayList;

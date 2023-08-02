@@ -1,4 +1,4 @@
-package com.github.iamniklas.smartIEcore.javalin;
+package com.github.iamniklas.smartIEcore.shared.network.javalin;
 
 import io.javalin.Javalin;
 

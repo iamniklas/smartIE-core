@@ -1,6 +1,6 @@
 package com.github.iamniklas.smartIEcore.device.output.network.javalin.controllers;
 
-import com.github.iamniklas.smartIEcore.javalin.JavalinController;
+import com.github.iamniklas.smartIEcore.shared.network.javalin.JavalinController;
 import io.javalin.Javalin;
 
 public class OutputMasterController extends JavalinController {

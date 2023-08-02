@@ -1,4 +1,4 @@
-package com.github.iamniklas.smartIEcore.javalin;
+package com.github.iamniklas.smartIEcore.shared.network.javalin;
 
 import com.github.iamniklas.smartIEcore.device.input.network.javalin.controllers.DeviceController;
 import io.javalin.Javalin;
