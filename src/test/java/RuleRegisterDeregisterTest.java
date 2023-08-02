@@ -1,11 +1,10 @@
-import com.github.iamniklas.device.input.InputDevice;
-import com.github.iamniklas.device.output.OutputDevice;
-import com.github.iamniklas.hub.SmartIEHub;
-import com.github.iamniklas.hub.network.IInputDeviceAPI;
-import com.github.iamniklas.hub.network.IOutputDeviceAPI;
-import com.github.iamniklas.hub.network.ISmartIEAPI;
-import com.github.iamniklas.hub.rules.Rule;
-import com.github.iamniklas.hub.rules.implementations.ProxyRule;
+import com.github.iamniklas.smartIEcore.device.input.InputDevice;
+import com.github.iamniklas.smartIEcore.device.output.OutputDevice;
+import com.github.iamniklas.smartIEcore.hub.SmartIEHub;
+import com.github.iamniklas.smartIEcore.hub.network.IInputDeviceAPI;
+import com.github.iamniklas.smartIEcore.hub.network.IOutputDeviceAPI;
+import com.github.iamniklas.smartIEcore.hub.network.ISmartIEAPI;
+import com.github.iamniklas.smartIEcore.hub.rules.implementations.ProxyRule;
 import com.google.gson.Gson;
 import io.javalin.http.HttpStatus;
 import org.junit.jupiter.api.Assertions;
@@ -15,7 +14,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 
 public class RuleRegisterDeregisterTest {
     static SmartIEHub hub;

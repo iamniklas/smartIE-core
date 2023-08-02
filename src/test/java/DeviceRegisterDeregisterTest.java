@@ -1,17 +1,13 @@
-import com.github.iamniklas.device.input.InputDevice;
-import com.github.iamniklas.device.output.OutputDevice;
-import com.github.iamniklas.hub.SmartIEHub;
-import com.github.iamniklas.hub.devices.Device;
-import com.github.iamniklas.hub.network.IInputDeviceAPI;
-import com.github.iamniklas.hub.network.IOutputDeviceAPI;
-import com.github.iamniklas.hub.network.ISmartIEAPI;
-import com.github.iamniklas.nettools.scanner.AcceleratedNetworkScanner;
-import com.google.gson.Gson;
+import com.github.iamniklas.smartIEcore.device.input.InputDevice;
+import com.github.iamniklas.smartIEcore.device.output.OutputDevice;
+import com.github.iamniklas.smartIEcore.hub.SmartIEHub;
+import com.github.iamniklas.smartIEcore.hub.network.IInputDeviceAPI;
+import com.github.iamniklas.smartIEcore.hub.network.IOutputDeviceAPI;
+import com.github.iamniklas.smartIEcore.hub.network.ISmartIEAPI;
 import io.javalin.http.HttpStatus;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -57,7 +53,7 @@ public class DeviceRegisterDeregisterTest {
     public void testRegister() {
 
         //HUB: Scan for available devices
-        List<com.github.iamniklas.hub.devices.InputDevice> foundInputDevices;
+        List<com.github.iamniklas.smartIEcore.hub.devices.InputDevice> foundInputDevices;
         try {
             foundInputDevices = hubAPI.scanForInputDevices().execute().body();
         } catch (IOException e) {
@@ -65,7 +61,7 @@ public class DeviceRegisterDeregisterTest {
         }
         Assertions.assertNotNull(foundInputDevices);
         Assertions.assertEquals(1, foundInputDevices.size());
-        List<com.github.iamniklas.hub.devices.OutputDevice> foundOutputDevices;
+        List<com.github.iamniklas.smartIEcore.hub.devices.OutputDevice> foundOutputDevices;
         try {
             foundOutputDevices = hubAPI.scanForOutputDevices().execute().body();
         } catch (IOException e) {

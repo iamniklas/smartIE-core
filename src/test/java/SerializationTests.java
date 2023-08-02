@@ -1,17 +1,14 @@
-import com.github.iamniklas.hub.devices.DeviceAddress;
-import com.github.iamniklas.hub.devices.InputDevice;
-import com.github.iamniklas.hub.devices.InputDeviceType;
-import com.github.iamniklas.hub.rules.Rule;
-import com.github.iamniklas.hub.rules.implementations.ProxyRule;
-import com.github.iamniklas.hub.rules.models.NumberComparator;
-import com.github.iamniklas.hub.rules.models.RecurringMode;
-import com.github.iamniklas.hub.rules.models.RuleData;
+import com.github.iamniklas.smartIEcore.hub.devices.DeviceAddress;
+import com.github.iamniklas.smartIEcore.hub.devices.InputDevice;
+import com.github.iamniklas.smartIEcore.hub.devices.InputDeviceType;
+import com.github.iamniklas.smartIEcore.hub.rules.Rule;
+import com.github.iamniklas.smartIEcore.hub.rules.implementations.ProxyRule;
+import com.github.iamniklas.smartIEcore.hub.rules.models.NumberComparator;
+import com.github.iamniklas.smartIEcore.hub.rules.models.RecurringMode;
+import com.github.iamniklas.smartIEcore.hub.rules.models.RuleData;
 import com.google.gson.Gson;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDateTime;
-import java.time.temporal.TemporalAccessor;
 import java.util.UUID;
 
 public class SerializationTests {
