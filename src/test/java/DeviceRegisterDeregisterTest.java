@@ -1,4 +1,3 @@
-/*
 import com.github.iamniklas.smartIEcore.device.input.InputDevice;
 import com.github.iamniklas.smartIEcore.device.output.OutputDevice;
 import com.github.iamniklas.smartIEcore.hub.SmartIEHub;
@@ -105,4 +104,3 @@ public class DeviceRegisterDeregisterTest {
         //HUB: Check registered device count equals 0
     }
 }
-*/
