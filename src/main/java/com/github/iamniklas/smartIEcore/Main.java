@@ -15,11 +15,12 @@ public class Main {
             System.err.println("********************************");
             System.err.println();
         }
-        SmartIEHub smartIEInstance = new SmartIEHub(mode);
+
+        SmartIEHub smartIEHub = new SmartIEHub(mode);
+        smartIEHub.start();
 
         System.out.println("smartIE ready");
 
-        boolean programIsRunning = true;
-        while (programIsRunning) { }
+        while (smartIEHub.getHubRunning()) { }
     }
 }

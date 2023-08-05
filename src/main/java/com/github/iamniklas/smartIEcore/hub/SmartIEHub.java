@@ -29,9 +29,16 @@ public class SmartIEHub {
     private final ArrayList<ExecutionEvent<Rule>> ruleExecutions = new ArrayList<>();
     private final ArrayList<ExecutionEvent<OutputDevice>> outputDeviceExecutions = new ArrayList<>();
 
+    private boolean hubRunning = true;
+
     public enum DeviceMode { DEFAULT, DEBUG }
+    private DeviceMode deviceMode;
 
     public SmartIEHub(DeviceMode deviceMode) {
+        this.deviceMode = deviceMode;
+    }
+
+    public void start() {
         Javalin app = Javalin.create(conf -> {
             conf.plugins.enableCors(cors -> {
                 cors.add(CorsPluginConfig::anyHost);
@@ -45,6 +52,10 @@ public class SmartIEHub {
         if(deviceMode == DeviceMode.DEBUG) {
             javalinControllers.add(new TestsController(app, this));
         }
+    }
+
+    public boolean getHubRunning() {
+        return hubRunning;
     }
 
     public void registerRule(RuleRunner ruleRunner) {
