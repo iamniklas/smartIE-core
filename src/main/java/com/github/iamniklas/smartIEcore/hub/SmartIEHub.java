@@ -13,6 +13,7 @@ import io.javalin.Javalin;
 import io.javalin.plugin.bundled.CorsPluginConfig;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -93,6 +94,24 @@ public class SmartIEHub {
 
     public void addRegisteredInputDevices(InputDevice dev) { registeredInputDevices.add(dev); }
     public void setRegisteredInputDevices(InputDevice dev, String uuid) { registeredInputDevices.replaceAll(e -> Objects.equals(e.getDeviceUUID(), uuid) ? dev : e); }
+    public void updateSensorValue(String deviceUuid, String sensorId, Object data) {
+        InputDevice deviceToUpdate = null;
+
+        // Search for the device with the given deviceUuid
+        for (InputDevice device : registeredInputDevices) {
+            if (device.getDeviceUUID().equals(deviceUuid)) {
+                deviceToUpdate = device;
+                break;
+            }
+        }
+
+        if (deviceToUpdate == null) {
+            throw new IllegalArgumentException("Device with the provided UUID not found.");
+        }
+
+        deviceToUpdate.setSensorValue(sensorId, data);
+
+    }
     public void removeRegisteredInputDevice(String uuid) { registeredInputDevices.removeIf(e -> e.getDeviceUUID().equals(uuid));}
 
     public void addRegisteredOutputDevices(OutputDevice dev) { registeredOutputDevices.add(dev); }

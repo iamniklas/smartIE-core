@@ -3,7 +3,7 @@ package com.github.iamniklas.smartIEcore.hub.devices;
 import java.util.UUID;
 
 public abstract class Device {
-    protected String deviceUUID;
+    protected final String deviceUUID;
     protected final String name;
     protected final DeviceAddress deviceAddress;
 
@@ -21,10 +21,6 @@ public abstract class Device {
     public String getName() { return name; }
     public DeviceAddress getDeviceAddress() { return deviceAddress; }
     public abstract DeviceType getDeviceType();
-
-    public void regenerateUUID() {
-        deviceUUID = UUID.randomUUID().toString();
-    }
 
     @Override
     public String toString() {

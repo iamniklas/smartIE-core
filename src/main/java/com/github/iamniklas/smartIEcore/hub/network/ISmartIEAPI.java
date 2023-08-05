@@ -52,16 +52,16 @@ public interface ISmartIEAPI {
     void getDeviceEcho();
 
     @POST("/device")
-    Call<HttpStatus> newDevice(@Body Device device);
+    Call<Device> newDevice(@Body Device device);
 
-    @PUT
-    void updateDeviceByID(String id);
+    @PUT("/device/{id}")
+    Call<Device> updateDeviceByID(@Path("id") String id, @Body Device device);
 
-    @PUT
-    void updateInputByDevice(String id);
+    @PUT("/device/{device_id}/{sensor_id}")
+    Call<Device> updateDeviceSensorByID(@Path("device_id") String deviceId, @Path("sensor_id") String sensorId, @Body Object object);
 
-    @DELETE
-    void deleteDeviceByID(String id);
+    @DELETE("/device/{id}")
+    Call<Device> deleteDeviceByID(@Path("id") String id);
 
     //endregion
 

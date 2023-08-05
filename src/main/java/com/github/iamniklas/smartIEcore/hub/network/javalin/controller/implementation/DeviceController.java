@@ -75,6 +75,7 @@ public class DeviceController extends Controller {
 
             if (type == Device.DeviceType.INPUT) {
                 InputDevice iDev = new Gson().fromJson(ctx.body(), InputDevice.class);
+                iDev.newSensorValues();
                 smartIEInstance.addRegisteredInputDevices(iDev);
                 ctx.json(iDev);
             } else if (type == Device.DeviceType.OUTPUT) {
@@ -96,6 +97,12 @@ public class DeviceController extends Controller {
                 smartIEInstance.setRegisteredOutputDevices(oDev, ctx.pathParam("id"));
                 ctx.json(oDev);
             }
+        });
+
+        app.put("/device/{device_id}/{sensor_id}", ctx -> {
+            smartIEInstance.updateSensorValue(ctx.pathParam("device_id"), ctx.pathParam("sensor_id"), ctx.body());
+
+            ctx.json(smartIEInstance.getAllRegisteredDevices().stream().filter(i -> i.getDeviceUUID().equals(ctx.pathParam("device_id"))).findFirst().get());
         });
 
         app.delete("/device/{id}", ctx -> {

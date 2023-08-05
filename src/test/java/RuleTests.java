@@ -28,6 +28,7 @@ public class RuleTests {
     @BeforeAll
     public static void initialize() {
         hub = new SmartIEHub(SmartIEHub.DeviceMode.DEBUG); //5700
+        hub.start();
         inputDevice = new InputDevice(SmartIEHub.DeviceMode.DEBUG); //5701
         outputDevice = new OutputDevice(SmartIEHub.DeviceMode.DEBUG); //5702
 
