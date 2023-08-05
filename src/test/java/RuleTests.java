@@ -4,6 +4,7 @@ import com.github.iamniklas.smartIEcore.hub.SmartIEHub;
 import com.github.iamniklas.smartIEcore.hub.network.IInputDeviceAPI;
 import com.github.iamniklas.smartIEcore.hub.network.IOutputDeviceAPI;
 import com.github.iamniklas.smartIEcore.hub.network.ISmartIEAPI;
+import com.github.iamniklas.smartIEcore.hub.network.javalin.controller.implementation.TestsController;
 import com.github.iamniklas.smartIEcore.hub.rules.implementations.ProxyRule;
 import com.google.gson.Gson;
 import io.javalin.http.HttpStatus;
@@ -15,7 +16,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import java.io.IOException;
 
-public class RuleRegisterDeregisterTest {
+public class RuleTests {
     static SmartIEHub hub;
     static InputDevice inputDevice;
     static OutputDevice outputDevice;
@@ -65,7 +66,7 @@ public class RuleRegisterDeregisterTest {
         Assertions.assertEquals(HttpStatus.OK, status);
 
         //Hub: Check Rule Count
-        Integer ruleCount;
+        TestsController.CountObject ruleCount;
         try {
             ruleCount = hubAPI.getTotalRuleCount().execute().body();
         } catch (IOException e) {

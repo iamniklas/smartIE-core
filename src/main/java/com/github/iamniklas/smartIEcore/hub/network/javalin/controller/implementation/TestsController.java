@@ -4,8 +4,10 @@ import com.github.iamniklas.smartIEcore.hub.SmartIEHub;
 import com.github.iamniklas.smartIEcore.hub.devices.Device;
 import com.github.iamniklas.smartIEcore.hub.network.javalin.controller.Controller;
 import com.github.iamniklas.smartIEcore.hub.rules.Rule;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import io.javalin.Javalin;
+import io.javalin.http.HttpStatus;
 
 import java.util.List;
 
@@ -15,38 +17,47 @@ public class TestsController extends Controller {
     public TestsController(Javalin app, SmartIEHub smartIEInstance) {
         super(app, smartIEInstance);
 
-        //Get the total count of existing rules: {"to_count": "rule", "count": x}
+        //Get the total count of existing rules: {"toCount": "rule", "count": x}
         app.get("/tests/rule/count", ctx -> {
-            JsonObject json = new JsonObject();
-            json.addProperty("to_count", "rule");
-            json.addProperty("count", smartIEInstance.getRuleCount());
-            //ctx.json(json);
-            int i = smartIEInstance.getRuleCount();
-            ctx.result(String.valueOf(i));
+            CountObject countObject = new CountObject("rule", smartIEInstance.getRuleCount());
+            ctx.result(new Gson().toJson(countObject));
         });
 
-        //Get the total count of existing devices: {"to_count": "device", "count": x}
+        //Get the total count of existing devices: {"toCount": "device", "count": x}
         app.get("/tests/device/count", ctx -> {
-            JsonObject json = new JsonObject();
-            json.addProperty("to_count", "device");
-            json.addProperty("count", smartIEInstance.getRegisteredInputDevices().size() + smartIEInstance.getRegisteredOutputDevices().size());
-            int i = smartIEInstance.getRegisteredInputDevices().size() + smartIEInstance.getRegisteredOutputDevices().size();
-            ctx.result(String.valueOf(i));
+            CountObject countObject = new CountObject("device", smartIEInstance.getDeviceCount());
+            ctx.result(new Gson().toJson(countObject));
         });
 
         //Delete all rules
         app.delete("/tests/rule/all", ctx -> {
-            List<Rule> rules = smartIEInstance.getRegisteredRules();
             smartIEInstance.getRegisteredRules().clear();
-            ctx.json(rules.toArray());
+            ctx.json(new CountObject("rule", smartIEInstance.getRuleCount()));
         });
 
         //Delete all devices
         app.delete("/tests/device/all", ctx -> {
-            List<Device> allDevices = smartIEInstance.getAllRegisteredDevices();
             smartIEInstance.getRegisteredInputDevices().clear();
             smartIEInstance.getRegisteredOutputDevices().clear();
-            ctx.json(allDevices);
+            ctx.json(new CountObject("device", smartIEInstance.getDeviceCount()));
         });
+    }
+
+    public static class CountObject {
+        private final String toCount;
+        private final int count;
+
+        public CountObject(String toCount, int count) {
+            this.toCount = toCount;
+            this.count = count;
+        }
+
+        public String getToCount() {
+            return toCount;
+        }
+
+        public int getCount() {
+            return count;
+        }
     }
 }

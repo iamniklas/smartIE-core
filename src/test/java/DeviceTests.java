@@ -4,6 +4,7 @@ import com.github.iamniklas.smartIEcore.hub.SmartIEHub;
 import com.github.iamniklas.smartIEcore.hub.network.IInputDeviceAPI;
 import com.github.iamniklas.smartIEcore.hub.network.IOutputDeviceAPI;
 import com.github.iamniklas.smartIEcore.hub.network.ISmartIEAPI;
+import com.github.iamniklas.smartIEcore.hub.network.javalin.controller.implementation.TestsController;
 import io.javalin.http.HttpStatus;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -14,8 +15,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import java.io.IOException;
 import java.util.List;
 
-public class DeviceRegisterDeregisterTest {
-
+public class DeviceTests {
     static SmartIEHub hub;
     static InputDevice inputDevice;
     static OutputDevice outputDevice;
@@ -88,12 +88,12 @@ public class DeviceRegisterDeregisterTest {
 
 
         //HUB: Check registered device count equals 1
-        Integer deviceCount = -1;
-        try {
+        TestsController.CountObject deviceCount = null;
+        /*try {
             deviceCount = hubAPI.getTotalDeviceCount().execute().body();
         } catch (IOException e) {
             throw new RuntimeException(e);
-        }
+        }*/
         Assertions.assertEquals(2, deviceCount);
     }
 

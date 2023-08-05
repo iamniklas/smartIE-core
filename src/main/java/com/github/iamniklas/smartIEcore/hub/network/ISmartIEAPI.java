@@ -3,6 +3,7 @@ package com.github.iamniklas.smartIEcore.hub.network;
 import com.github.iamniklas.smartIEcore.hub.devices.Device;
 import com.github.iamniklas.smartIEcore.hub.devices.InputDevice;
 import com.github.iamniklas.smartIEcore.hub.devices.OutputDevice;
+import com.github.iamniklas.smartIEcore.hub.network.javalin.controller.implementation.TestsController;
 import com.github.iamniklas.smartIEcore.hub.rules.Rule;
 import io.javalin.http.HttpStatus;
 import retrofit2.Call;
@@ -83,16 +84,16 @@ public interface ISmartIEAPI {
     //region Tests
 
     @GET("tests/rule/count")
-    Call<Integer> getTotalRuleCount();
+    Call<TestsController.CountObject> getTotalRuleCount();
 
     @GET("tests/device/count")
-    Call<Integer> getTotalDeviceCount();
+    Call<TestsController.CountObject> getTotalDeviceCount();
 
-    @DELETE
-    void deleteAllRules();
+    @DELETE("/tests/rule/all")
+    Call<TestsController.CountObject> removeAllRules();
 
-    @DELETE
-    void deleteAllDevice();
+    @DELETE("/tests/device/all")
+    Call<TestsController.CountObject> removeAllDevices();
 
     //endregion
 }

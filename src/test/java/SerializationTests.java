@@ -16,7 +16,9 @@ public class SerializationTests {
     @Test
     public void testDeviceSerialization() {
         InputDevice inputDevice = new InputDevice(UUID.randomUUID().toString(), "input_device_1", InputDeviceType.Sensor, new DeviceAddress("0.0.0.0", "hostname", 5700));
-        System.out.println(new Gson().toJson(inputDevice));
+        String serializedDevice = new Gson().toJson(inputDevice);
+        System.out.println(serializedDevice);
+        InputDevice deserializedInputDevice = new Gson().fromJson(serializedDevice, InputDevice.class);
     }
 
     @Test

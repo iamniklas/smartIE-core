@@ -66,11 +66,19 @@ public class SmartIEHub {
     public int getRuleCount() {
         return registeredRules.size();
     }
+    public int getDeviceCount() {return registeredInputDevices.size() + registeredOutputDevices.size(); }
 
     public void removeRule(Rule rule) {
-        registeredRules.remove(rule);
-        //TODO rule.stop();
+        for (int i = 0; i < registeredRules.size(); i++) {
+            RuleRunner ruleRunner = registeredRules.get(i);
+            if (ruleRunner.getRule() == rule) {
+                registeredRules.remove(i);
+                ruleRunner.stop();
+                break;
+            }
+        }
     }
+
 
     public ArrayList<InputDevice> getRegisteredInputDevices() { return registeredInputDevices; }
     public ArrayList<OutputDevice> getRegisteredOutputDevices() { return registeredOutputDevices; }
@@ -79,7 +87,7 @@ public class SmartIEHub {
         result.addAll(registeredOutputDevices);
         return result;
     }
-    public List<Rule> getRegisteredRules() { return registeredRules.stream().map(r -> r.getRule()).collect(Collectors.toList()); }
+    public List<RuleRunner> getRegisteredRules() { return registeredRules; }
     public ArrayList<ExecutionEvent<OutputDevice>> getOutputDeviceExecutions() { return outputDeviceExecutions; }
     public ArrayList<ExecutionEvent<Rule>> getRuleExecutions() { return ruleExecutions; }
 
