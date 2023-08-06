@@ -21,14 +21,4 @@ public abstract class Device {
     public String getName() { return name; }
     public DeviceAddress getDeviceAddress() { return deviceAddress; }
     public abstract DeviceType getDeviceType();
-
-    @Override
-    public String toString() {
-        return "Device{" +
-                "deviceUUID='" + deviceUUID + '\'' +
-                ", name='" + name + '\'' +
-                ", deviceAddress=" + deviceAddress +
-                ", deviceType=" + getDeviceType() +
-                '}';
-    }
 }

@@ -1,3 +1,5 @@
+package hub;
+
 import com.github.iamniklas.smartIEcore.hub.SmartIEHub;
 import com.github.iamniklas.smartIEcore.hub.devices.Device;
 import com.github.iamniklas.smartIEcore.hub.devices.DeviceAddress;
@@ -12,20 +14,20 @@ import com.google.gson.JsonObject;
 import io.javalin.http.HttpStatus;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.UUID;
 
 public class DeviceTests {
-    static SmartIEHub hub;
-    static ISmartIEAPI hubAPI;
+    SmartIEHub hub;
+    ISmartIEAPI hubAPI;
 
-    @BeforeAll
-    public static void initialize() {
+    @BeforeEach
+    public void initialize() {
         hub = new SmartIEHub(SmartIEHub.DeviceMode.DEFAULT); //5700
         hub.start();
 
@@ -68,6 +70,7 @@ public class DeviceTests {
         Assertions.assertEquals("Device B", device.getName());
         Assertions.assertEquals("INPUT", device.getDeviceType().toString());
         Assertions.assertEquals(2, hub.getDeviceCount());
+
     }
 
     @Test
@@ -96,6 +99,7 @@ public class DeviceTests {
 
         //HUB: Check registered device count equals 0
         Assertions.assertEquals(0, hub.getDeviceCount());
+
     }
 
     @Test
@@ -118,10 +122,48 @@ public class DeviceTests {
         Assertions.assertNotNull(deviceFromApi);
         Assertions.assertEquals(dev.getDeviceUUID(), deviceFromApi.getDeviceUUID());
         Assertions.assertEquals(newDeviceName, deviceFromApi.getName());
+
     }
 
     @Test
     public void testSpecificDeviceGet() {
+        testRegisterDevice();
+
+        InputDevice iDev = hub.getRegisteredInputDevices().get(0);
+
+        InputDevice inputDeviceFromApi;
+        try {
+            inputDeviceFromApi = hubAPI.getInputDeviceByID(iDev.getDeviceUUID()).execute().body();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        Assertions.assertEquals(iDev.getDeviceUUID(), inputDeviceFromApi.getDeviceUUID());
+        Assertions.assertEquals(iDev.getName(), inputDeviceFromApi.getName());
+
+    }
+
+    @Test
+    public void testGetDeviceSpecification() {
+        InputDevice inputDevice = new InputDevice(UUID.randomUUID().toString(), "Device 1", InputDeviceType.Sensor, new DeviceAddress("0.0.0.0", "localhost", 5700));
+        inputDevice.setSpecificationValue("sensor#1", 12);
+
+        Device d;
+        try {
+            d = hubAPI.newDevice(inputDevice).execute().body();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        InputDevice iDev;
+        try {
+            iDev = hubAPI.getInputDeviceByID(inputDevice.getDeviceUUID()).execute().body();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        Assertions.assertNotNull(iDev);
+        Assertions.assertEquals(1, iDev.getInputDeviceSpecification().getSpecificationSize());
 
     }
 
@@ -138,10 +180,9 @@ public class DeviceTests {
             throw new RuntimeException(e);
         }
 
-        //TODO HUB: Add to Device Update Execution History
-        //TODO Update Execution History Size Assertion
+        Assertions.assertEquals(1, inputDevice.getInputDeviceSpecification().getSpecificationSize());
+        Assertions.assertEquals("123", inputDevice.getInputDeviceSpecification().getSpecification("sensor#1").toString());
+        Assertions.assertEquals(1, hub.getInputDeviceExecutions().size());
 
-        //InputDeviceAssertions.assertEquals(1, inputDevice.getSensorCount());
-        Assertions.assertEquals("123", inputDevice.getSensorValue("sensor#1").toString());
     }
 }

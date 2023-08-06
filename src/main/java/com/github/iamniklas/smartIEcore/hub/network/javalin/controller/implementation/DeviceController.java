@@ -40,23 +40,22 @@ public class DeviceController extends Controller {
             }
         });
 
-        app.get("/device/{id}", ctx -> {
+        app.get("/device/{device_type}/{id}", ctx -> {
             String id = ctx.pathParam("id");
 
-            InputDevice iDev = smartIEInstance.getRegisteredInputDevices().stream().filter(i -> i.getDeviceUUID().equals(id)).findFirst().orElse(null);
-            OutputDevice oDev = smartIEInstance.getRegisteredOutputDevices().stream().filter(i -> i.getDeviceUUID().equals(id)).findFirst().orElse(null);
+            Device.DeviceType deviceType = Device.DeviceType.valueOf(ctx.pathParam("device_type").toUpperCase());
 
-            if(iDev != null) {
+            if(deviceType == Device.DeviceType.INPUT) {
+                InputDevice iDev = smartIEInstance.getRegisteredInputDevices().stream().filter(i -> i.getDeviceUUID().equals(id)).findFirst().orElse(null);
                 ctx.json(iDev);
-            } else if(oDev != null) {
+            } else if(deviceType == Device.DeviceType.OUTPUT) {
+                OutputDevice oDev = smartIEInstance.getRegisteredOutputDevices().stream().filter(i -> i.getDeviceUUID().equals(id)).findFirst().orElse(null);
                 ctx.json(oDev);
-            } else {
-                ctx.json(new Exception("No Device Found"));
             }
         });
 
         app.get("/device/{device_type}/scan", ctx -> {
-            Device.DeviceType deviceType = Device.DeviceType.valueOf(ctx.pathParam("device_type"));
+            Device.DeviceType deviceType = Device.DeviceType.valueOf(ctx.pathParam("device_type").toUpperCase());
 
             ArrayList<Device> result = new ArrayList<>();
             switch (deviceType) {
@@ -75,7 +74,6 @@ public class DeviceController extends Controller {
 
             if (type == Device.DeviceType.INPUT) {
                 InputDevice iDev = new Gson().fromJson(ctx.body(), InputDevice.class);
-                iDev.newSensorValues();
                 smartIEInstance.addRegisteredInputDevices(iDev);
                 ctx.json(iDev);
             } else if (type == Device.DeviceType.OUTPUT) {

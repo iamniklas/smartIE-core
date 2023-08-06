@@ -1,3 +1,5 @@
+package hub;
+
 import com.github.iamniklas.smartIEcore.device.input.InputDevice;
 import com.github.iamniklas.smartIEcore.device.output.OutputDevice;
 import com.github.iamniklas.smartIEcore.hub.SmartIEHub;

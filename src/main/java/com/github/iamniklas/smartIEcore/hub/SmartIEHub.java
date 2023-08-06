@@ -12,6 +12,7 @@ import com.github.iamniklas.smartIEcore.hub.network.javalin.controller.implement
 import io.javalin.Javalin;
 import io.javalin.plugin.bundled.CorsPluginConfig;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,7 +29,10 @@ public class SmartIEHub {
     private final ArrayList<RuleRunner> registeredRules = new ArrayList<>();
 
     private final ArrayList<ExecutionEvent<Rule>> ruleExecutions = new ArrayList<>();
+    private final ArrayList<ExecutionEvent<InputDevice>> inputDeviceExecutions = new ArrayList<>();
     private final ArrayList<ExecutionEvent<OutputDevice>> outputDeviceExecutions = new ArrayList<>();
+
+    private Javalin javalinApp;
 
     private boolean hubRunning = true;
 
@@ -40,19 +44,24 @@ public class SmartIEHub {
     }
 
     public void start() {
-        Javalin app = Javalin.create(conf -> {
+        javalinApp = Javalin.create(conf -> {
             conf.plugins.enableCors(cors -> {
                 cors.add(CorsPluginConfig::anyHost);
             });
         }).start(JAVALIN_PORT);
 
-        javalinControllers.add(new IndexController(app, this));
-        javalinControllers.add(new RuleController(app, this));
-        javalinControllers.add(new DeviceController(app, this));
-        javalinControllers.add(new ExecutionHistoryController(app, this));
+        javalinControllers.add(new IndexController(javalinApp, this));
+        javalinControllers.add(new RuleController(javalinApp, this));
+        javalinControllers.add(new DeviceController(javalinApp, this));
+        javalinControllers.add(new ExecutionHistoryController(javalinApp, this));
         if(deviceMode == DeviceMode.DEBUG) {
-            javalinControllers.add(new TestsController(app, this));
+            javalinControllers.add(new TestsController(javalinApp, this));
         }
+    }
+
+    public void shutdown() {
+        javalinApp.close();
+        hubRunning = false;
     }
 
     public boolean getHubRunning() {
@@ -89,6 +98,7 @@ public class SmartIEHub {
         return result;
     }
     public List<RuleRunner> getRegisteredRules() { return registeredRules; }
+    public ArrayList<ExecutionEvent<InputDevice>> getInputDeviceExecutions() { return inputDeviceExecutions; }
     public ArrayList<ExecutionEvent<OutputDevice>> getOutputDeviceExecutions() { return outputDeviceExecutions; }
     public ArrayList<ExecutionEvent<Rule>> getRuleExecutions() { return ruleExecutions; }
 
@@ -109,7 +119,8 @@ public class SmartIEHub {
             throw new IllegalArgumentException("Device with the provided UUID not found.");
         }
 
-        deviceToUpdate.setSensorValue(sensorId, data);
+        deviceToUpdate.getInputDeviceSpecification().setSpecification(sensorId, data);
+        inputDeviceExecutions.add(new ExecutionEvent<>(LocalDateTime.now(), deviceToUpdate));
 
     }
     public void removeRegisteredInputDevice(String uuid) { registeredInputDevices.removeIf(e -> e.getDeviceUUID().equals(uuid));}

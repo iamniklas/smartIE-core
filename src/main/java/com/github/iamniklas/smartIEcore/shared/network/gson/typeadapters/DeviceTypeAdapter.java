@@ -17,6 +17,15 @@ public class DeviceTypeAdapter implements JsonSerializer<Device>, JsonDeserializ
         jsonObject.add("deviceAddress", context.serialize(device.getDeviceAddress(), DeviceAddress.class));
         jsonObject.addProperty("deviceType", device.getDeviceType().name());
         // Add other properties specific to the Device class if needed
+        switch (device.getDeviceType()) {
+            case INPUT:
+                jsonObject.add("inputDeviceSpecification", context.serialize(((InputDevice)device).getInputDeviceSpecification()));
+                jsonObject.add("inputDeviceType", context.serialize(((InputDevice)device).getInputDeviceType(), InputDeviceType.class));
+                break;
+            case OUTPUT:
+
+                break;
+        }
         // Make sure to handle null values properly if any field can be null
         return jsonObject;
     }
@@ -29,17 +38,16 @@ public class DeviceTypeAdapter implements JsonSerializer<Device>, JsonDeserializ
         DeviceAddress deviceAddress = context.deserialize(jsonObject.get("deviceAddress"), DeviceAddress.class);
         Device.DeviceType deviceType = Device.DeviceType.valueOf(jsonObject.get("deviceType").getAsString());
 
-        // Create and return the appropriate Device subclass based on deviceType
         if (deviceType == null) {
             throw new JsonParseException("DeviceType is not provided in the JSON.");
         }
 
         switch (deviceType) {
-            // Here, you should have logic to determine which subclass to instantiate
-            // based on the deviceType read from JSON. For now, I'll assume you have
-            // two subclasses named MobileDevice and LaptopDevice.
             case INPUT:
-                InputDevice iDev = new InputDevice(deviceUUID, name, InputDeviceType.OtherInput, deviceAddress);
+                InputDeviceType iDevType = context.deserialize(jsonObject.get("inputDeviceType"), InputDeviceType.class);
+                InputDeviceSpecification spec = context.deserialize(jsonObject.get("inputDeviceSpecification"), InputDeviceSpecification.class);
+                InputDevice iDev = new InputDevice(deviceUUID, name, iDevType, deviceAddress);
+                iDev.setSpecification(spec);
                 return iDev;
             case OUTPUT:
                 return new OutputDevice(deviceUUID, name, OutputDeviceType.Other, deviceAddress);

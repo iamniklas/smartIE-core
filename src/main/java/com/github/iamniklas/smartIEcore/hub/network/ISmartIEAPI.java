@@ -45,8 +45,11 @@ public interface ISmartIEAPI {
     @GET("/device/OUTPUT/scan")
     Call<List<OutputDevice>> scanForOutputDevices();
 
-    @GET
-    void getDeviceByID(String id);
+    @GET("/device/INPUT/{device_id}")
+    Call<InputDevice> getInputDeviceByID(@Path("device_id") String id);
+
+    @GET("/device/OUTPUT/{device_id}")
+    Call<OutputDevice> getOutputDeviceByID(@Path("device_id") String id);
 
     @GET
     void getDeviceEcho();
