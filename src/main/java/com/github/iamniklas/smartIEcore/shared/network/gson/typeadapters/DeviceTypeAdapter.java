@@ -16,13 +16,22 @@ public class DeviceTypeAdapter implements JsonSerializer<Device>, JsonDeserializ
         jsonObject.addProperty("name", device.getName());
         jsonObject.add("deviceAddress", context.serialize(device.getDeviceAddress(), DeviceAddress.class));
         jsonObject.addProperty("deviceType", device.getDeviceType().name());
+        if(device.getDeviceSpecification() != null) {
+            jsonObject.add("deviceSpecification", context.serialize((device).getDeviceSpecification(), DeviceSpecification.class));
+            /*JsonObject spec = new JsonObject();
+            for (String key : device.getDeviceSpecification().getSpecificationFields()) {
+                Object value = device.getDeviceSpecification().getSpecification(key);
+                spec.add(key, context.serialize(value));
+            }
+            jsonObject.add("deviceSpecification", spec);*/
+        }
         // Add other properties specific to the Device class if needed
         switch (device.getDeviceType()) {
             case INPUT:
-                jsonObject.add("inputDeviceSpecification", context.serialize(((InputDevice)device).getInputDeviceSpecification()));
                 jsonObject.add("inputDeviceType", context.serialize(((InputDevice)device).getInputDeviceType(), InputDeviceType.class));
                 break;
             case OUTPUT:
+                jsonObject.add("outputDeviceType", context.serialize(((OutputDevice)device).getType(), OutputDeviceType.class));
 
                 break;
         }
@@ -37,20 +46,22 @@ public class DeviceTypeAdapter implements JsonSerializer<Device>, JsonDeserializ
         String name = jsonObject.get("name").getAsString();
         DeviceAddress deviceAddress = context.deserialize(jsonObject.get("deviceAddress"), DeviceAddress.class);
         Device.DeviceType deviceType = Device.DeviceType.valueOf(jsonObject.get("deviceType").getAsString());
-
-        if (deviceType == null) {
-            throw new JsonParseException("DeviceType is not provided in the JSON.");
+        DeviceSpecification spec = null;
+        if(jsonObject.get("deviceSpecification") != null) {
+            spec = context.deserialize(jsonObject.get("deviceSpecification"), DeviceSpecification.class);
         }
 
         switch (deviceType) {
             case INPUT:
                 InputDeviceType iDevType = context.deserialize(jsonObject.get("inputDeviceType"), InputDeviceType.class);
-                InputDeviceSpecification spec = context.deserialize(jsonObject.get("inputDeviceSpecification"), InputDeviceSpecification.class);
                 InputDevice iDev = new InputDevice(deviceUUID, name, iDevType, deviceAddress);
                 iDev.setSpecification(spec);
                 return iDev;
             case OUTPUT:
-                return new OutputDevice(deviceUUID, name, OutputDeviceType.Other, deviceAddress);
+                OutputDeviceType oDevType = context.deserialize(jsonObject.get("outputDeviceType"), OutputDeviceType.class);
+                OutputDevice oDev = new OutputDevice(deviceUUID, name, oDevType, deviceAddress);
+                oDev.setSpecification(spec);
+                return oDev;
             default:
                 throw new JsonParseException("Unsupported device type: " + deviceType);
         }

@@ -28,7 +28,7 @@ public class DeviceTests {
 
     @BeforeEach
     public void initialize() {
-        hub = new SmartIEHub(SmartIEHub.DeviceMode.DEFAULT); //5700
+        hub = new SmartIEHub(SmartIEHub.DeviceMode.DEFAULT);
         hub.start();
 
         GsonConverterFactory factory = GsonConverterFactory.create(
@@ -96,10 +96,8 @@ public class DeviceTests {
             throw new RuntimeException(e);
         }
 
-
         //HUB: Check registered device count equals 0
         Assertions.assertEquals(0, hub.getDeviceCount());
-
     }
 
     @Test
@@ -147,6 +145,8 @@ public class DeviceTests {
     public void testGetDeviceSpecification() {
         InputDevice inputDevice = new InputDevice(UUID.randomUUID().toString(), "Device 1", InputDeviceType.Sensor, new DeviceAddress("0.0.0.0", "localhost", 5700));
         inputDevice.setSpecificationValue("sensor#1", 12);
+        inputDevice.setSpecificationValue("sensor#2", 120);
+        inputDevice.setSpecificationValue("sensor#3", 1255);
 
         Device d;
         try {
@@ -163,7 +163,7 @@ public class DeviceTests {
         }
 
         Assertions.assertNotNull(iDev);
-        Assertions.assertEquals(1, iDev.getInputDeviceSpecification().getSpecificationSize());
+        Assertions.assertEquals(3, iDev.getDeviceSpecification().getSpecificationSize());
 
     }
 
@@ -180,8 +180,8 @@ public class DeviceTests {
             throw new RuntimeException(e);
         }
 
-        Assertions.assertEquals(1, inputDevice.getInputDeviceSpecification().getSpecificationSize());
-        Assertions.assertEquals("123", inputDevice.getInputDeviceSpecification().getSpecification("sensor#1").toString());
+        Assertions.assertEquals(1, inputDevice.getDeviceSpecification().getSpecificationSize());
+        Assertions.assertEquals("123", inputDevice.getDeviceSpecification().getSpecification("sensor#1").toString());
         Assertions.assertEquals(1, hub.getInputDeviceExecutions().size());
 
     }

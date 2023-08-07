@@ -119,7 +119,7 @@ public class SmartIEHub {
             throw new IllegalArgumentException("Device with the provided UUID not found.");
         }
 
-        deviceToUpdate.getInputDeviceSpecification().setSpecification(sensorId, data);
+        deviceToUpdate.getDeviceSpecification().setSpecification(sensorId, data);
         inputDeviceExecutions.add(new ExecutionEvent<>(LocalDateTime.now(), deviceToUpdate));
 
     }
