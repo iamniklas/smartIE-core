@@ -1,15 +1,11 @@
 import com.github.iamniklas.smartIEcore.hub.devices.*;
 import com.github.iamniklas.smartIEcore.hub.rules.Rule;
 import com.github.iamniklas.smartIEcore.hub.rules.implementations.FunctionRule;
-import com.github.iamniklas.smartIEcore.hub.rules.implementations.ProxyRule;
 import com.github.iamniklas.smartIEcore.hub.rules.models.NumberComparator;
 import com.github.iamniklas.smartIEcore.hub.rules.models.RecurringMode;
 import com.github.iamniklas.smartIEcore.hub.rules.models.RuleData;
 import com.github.iamniklas.smartIEcore.shared.network.gson.creator.GsonSerializer;
-import com.github.iamniklas.smartIEcore.shared.network.gson.typeadapters.DeviceTypeAdapter;
-import com.github.iamniklas.smartIEcore.shared.network.gson.typeadapters.RuleTypeAdapter;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
