@@ -23,8 +23,8 @@ public interface ISmartIEAPI {
     @GET
     void getAllRules();
 
-    @POST
-    Call<HttpStatus> newRule(@Body Rule rule);
+    @POST("/rule")
+    Call<Rule> newRule(@Body Rule rule);
 
     @PUT
     void updateRuleByID(String id);

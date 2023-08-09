@@ -8,6 +8,7 @@ import com.github.iamniklas.nettools.models.TestResult;
 import com.github.iamniklas.nettools.scanner.AcceleratedNetworkScanner;
 import com.github.iamniklas.nettools.scanner.ScanResultCallback;
 import com.github.iamniklas.nettools.scanner.Scanner;
+import com.google.gson.Gson;
 import io.javalin.Javalin;
 
 import java.net.DatagramSocket;
@@ -15,8 +16,8 @@ import java.net.HttpURLConnection;
 import java.net.InetAddress;
 
 public class ScanController extends Controller {
-    public ScanController(Javalin app, SmartIEHub smartIEInstance) {
-        super(app, smartIEInstance);
+    public ScanController(Javalin app, SmartIEHub smartIEInstance, Gson gson) {
+        super(app, smartIEInstance, gson);
 
         app.get("/scan", ctx -> {
             TestResult result = scanForDevices(new ScanResultCallback() {

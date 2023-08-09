@@ -13,8 +13,8 @@ import java.time.LocalDateTime;
 public class ValueComparisonRule extends Rule {
 
 
-    public ValueComparisonRule(RuleCallback callback, String ruleName, RuleData ruleData, SmartIEHub programInstance) {
-        super(callback, ruleName, ruleData, programInstance, RuleType.ValueComparison);
+    public ValueComparisonRule(String uuid, RuleCallback callback, String ruleName, RuleData ruleData, SmartIEHub programInstance) {
+        super(uuid, callback, ruleName, ruleData, programInstance, RuleType.ValueComparison);
     }
 
     @Override

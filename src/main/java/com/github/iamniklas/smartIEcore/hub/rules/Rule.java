@@ -13,8 +13,8 @@ public abstract class Rule {
     private final String ruleName;
     private final RuleType ruleType;
 
-    public Rule(RuleCallback callback, String ruleName, RuleData ruleData, SmartIEHub programInstance, RuleType ruleType) {
-        ruleUUID = UUID.randomUUID().toString();
+    public Rule(String uuid, RuleCallback callback, String ruleName, RuleData ruleData, SmartIEHub programInstance, RuleType ruleType) {
+        ruleUUID = uuid;
         this.callback = callback;
         this.ruleName = ruleName;
         this.ruleData = ruleData;
@@ -32,6 +32,7 @@ public abstract class Rule {
     public RuleData getRuleData() { return ruleData; }
 
     public void setSmartIEHub(SmartIEHub hub) { this.programInstance = hub; }
+    public void setCallback(RuleCallback callback) { this.callback = callback; }
 
     public void startRule() {
         onRuleStart(LocalDateTime.now());

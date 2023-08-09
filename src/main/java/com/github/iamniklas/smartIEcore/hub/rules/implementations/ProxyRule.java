@@ -10,8 +10,8 @@ import java.time.LocalDateTime;
 
 //TODO Implement
 public class ProxyRule extends Rule {
-    public ProxyRule(RuleCallback callback, String ruleName, RuleData ruleData, SmartIEHub programInstance) {
-        super(callback, ruleName, ruleData, programInstance, RuleType.Proxy);
+    public ProxyRule(String uuid, RuleCallback callback, String ruleName, RuleData ruleData, SmartIEHub programInstance) {
+        super(uuid, callback, ruleName, ruleData, programInstance, RuleType.Proxy);
     }
 
     @Override

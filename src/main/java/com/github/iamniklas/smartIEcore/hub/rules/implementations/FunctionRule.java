@@ -10,8 +10,8 @@ import java.time.LocalDateTime;
 
 //TODO Implement
 public class FunctionRule extends Rule {
-    public FunctionRule(RuleCallback callback, String ruleName, RuleData ruleData, SmartIEHub programInstance) {
-        super(callback, ruleName, ruleData, programInstance, RuleType.Function);
+    public FunctionRule(String uuid, RuleCallback callback, String ruleName, RuleData ruleData, SmartIEHub programInstance) {
+        super(uuid, callback, ruleName, ruleData, programInstance, RuleType.Function);
     }
 
     @Override

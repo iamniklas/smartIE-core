@@ -14,8 +14,8 @@ import java.util.List;
 
 //This controller shall be only available in development mode.
 public class TestsController extends Controller {
-    public TestsController(Javalin app, SmartIEHub smartIEInstance) {
-        super(app, smartIEInstance);
+    public TestsController(Javalin app, SmartIEHub smartIEInstance, Gson gson) {
+        super(app, smartIEInstance, gson);
 
         //Get the total count of existing rules: {"toCount": "rule", "count": x}
         app.get("/tests/rule/count", ctx -> {

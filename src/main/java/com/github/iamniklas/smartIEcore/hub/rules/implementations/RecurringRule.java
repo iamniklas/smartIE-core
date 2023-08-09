@@ -18,8 +18,8 @@ public final class RecurringRule extends Rule {
     long timeSinceLastTriggerInMs = 0L;
     LocalDateTime lastCycle;
 
-    public RecurringRule(RuleCallback callback, String ruleName, RuleData ruleData, SmartIEHub programInstance) {
-        super(callback, ruleName, ruleData, programInstance, RuleType.Recurring);
+    public RecurringRule(String uuid, RuleCallback callback, String ruleName, RuleData ruleData, SmartIEHub programInstance) {
+        super(uuid, callback, ruleName, ruleData, programInstance, RuleType.Recurring);
         maxTimes = ruleData.targetValue;
         lastCycle = LocalDateTime.now();
     }

@@ -20,8 +20,8 @@ import java.util.stream.Collectors;
 
 public class DeviceController extends Controller {
 
-    public DeviceController(Javalin app, SmartIEHub smartIEInstance) {
-        super(app, smartIEInstance);
+    public DeviceController(Javalin app, SmartIEHub smartIEInstance, Gson gson) {
+        super(app, smartIEInstance, gson);
 
         app.get("/device/{device_type}/all", ctx -> {
             Device.DeviceType deviceType = Device.DeviceType.valueOf(ctx.pathParam("device_type"));
@@ -45,10 +45,6 @@ public class DeviceController extends Controller {
 
         app.get("/device/{device_type}/{id}", ctx -> {
             String id = ctx.pathParam("id");
-
-            GsonBuilder builder = new GsonBuilder();
-            builder.registerTypeAdapter(Device.class, new DeviceTypeAdapter());
-            Gson gson = builder.create();
 
             Device.DeviceType deviceType = Device.DeviceType.valueOf(ctx.pathParam("device_type").toUpperCase());
 
@@ -79,10 +75,6 @@ public class DeviceController extends Controller {
         });
 
         app.post("/device", ctx -> {
-            GsonBuilder builder = new GsonBuilder();
-            builder.registerTypeAdapter(Device.class, new DeviceTypeAdapter());
-            Gson gson = builder.create();
-
             Device.DeviceType type = Device.DeviceType.valueOf(gson.fromJson(ctx.body(), JsonObject.class).get("deviceType").getAsString());
 
             if (type == Device.DeviceType.INPUT) {

@@ -6,14 +6,9 @@ import com.github.iamniklas.smartIEcore.hub.devices.DeviceAddress;
 import com.github.iamniklas.smartIEcore.hub.devices.InputDevice;
 import com.github.iamniklas.smartIEcore.hub.devices.InputDeviceType;
 import com.github.iamniklas.smartIEcore.hub.network.ISmartIEAPI;
-import com.github.iamniklas.smartIEcore.hub.network.javalin.controller.implementation.TestsController;
 import com.github.iamniklas.smartIEcore.shared.network.gson.typeadapters.DeviceTypeAdapter;
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import io.javalin.http.HttpStatus;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import retrofit2.Retrofit;
@@ -183,6 +178,5 @@ public class DeviceTests {
         Assertions.assertEquals(1, inputDevice.getDeviceSpecification().getSpecificationSize());
         Assertions.assertEquals("123", inputDevice.getDeviceSpecification().getSpecification("sensor#1").toString());
         Assertions.assertEquals(1, hub.getInputDeviceExecutions().size());
-
     }
 }

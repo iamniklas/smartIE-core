@@ -2,13 +2,14 @@ package com.github.iamniklas.smartIEcore.hub.network.javalin.controller.implemen
 
 import com.github.iamniklas.smartIEcore.hub.SmartIEHub;
 import com.github.iamniklas.smartIEcore.hub.network.javalin.controller.Controller;
+import com.google.gson.Gson;
 import io.javalin.Javalin;
 
 import java.util.ArrayList;
 
 public class IndexController extends Controller {
-    public IndexController(Javalin app, SmartIEHub smartIEInstance) {
-        super(app, smartIEInstance);
+    public IndexController(Javalin app, SmartIEHub smartIEInstance, Gson gson) {
+        super(app, smartIEInstance, gson);
 
         app.get("/", ctx -> {
             String apiInfo =

@@ -9,6 +9,8 @@ import com.github.iamniklas.smartIEcore.hub.network.javalin.controller.implement
 import com.github.iamniklas.smartIEcore.hub.rules.Rule;
 import com.github.iamniklas.smartIEcore.hub.rules.runner.RuleRunner;
 import com.github.iamniklas.smartIEcore.hub.network.javalin.controller.implementation.*;
+import com.github.iamniklas.smartIEcore.shared.network.gson.creator.GsonSerializer;
+import com.google.gson.Gson;
 import io.javalin.Javalin;
 import io.javalin.plugin.bundled.CorsPluginConfig;
 
@@ -44,18 +46,20 @@ public class SmartIEHub {
     }
 
     public void start() {
+        Gson serializer = GsonSerializer.newGsonConverter();
+
         javalinApp = Javalin.create(conf -> {
             conf.plugins.enableCors(cors -> {
                 cors.add(CorsPluginConfig::anyHost);
             });
         }).start(JAVALIN_PORT);
 
-        javalinControllers.add(new IndexController(javalinApp, this));
-        javalinControllers.add(new RuleController(javalinApp, this));
-        javalinControllers.add(new DeviceController(javalinApp, this));
-        javalinControllers.add(new ExecutionHistoryController(javalinApp, this));
+        javalinControllers.add(new IndexController(javalinApp, this, serializer));
+        javalinControllers.add(new RuleController(javalinApp, this, serializer));
+        javalinControllers.add(new DeviceController(javalinApp, this, serializer));
+        javalinControllers.add(new ExecutionHistoryController(javalinApp, this, serializer));
         if(deviceMode == DeviceMode.DEBUG) {
-            javalinControllers.add(new TestsController(javalinApp, this));
+            javalinControllers.add(new TestsController(javalinApp, this, serializer));
         }
     }
 
